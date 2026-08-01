@@ -273,14 +273,17 @@ Fresh replay receives:
 
 - the sealed public package;
 - its bound protected evidence vault;
-- an approved sealed source/wheel artifact or an authority-bound source
-  resolver;
+- the selected sealed source archive, wheel, source distribution,
+  dependency-lock/artifact closure, environment manifest, and build metadata;
 - injected human-signature and transport verifiers.
 
-A sealed source or wheel artifact is preferred to the current checkout.
+The selected self-contained closure is specified in
+[the D12 selection](./MEAS0_D12_SOURCE_RESTORATION_SELECTION_2026-08-01.md).
 Current-checkout source is never silently treated as historical authority.
-Source/package-data bytes, versions, recursive local closure, and resolver
-results are hash-bound and fail closed on drift.
+Source/package-data bytes, versions, recursive local closure, and dependency
+artifact results are hash-bound and fail closed on drift. This policy choice
+does not authorize source restoration until the selected sealed artifacts and
+their independent verification handoff exist.
 
 Replay reconstructs typed sources from sealed bytes, reexecutes deterministic
 measurement fusion and oracle predicates, rederives Gold facts, outcomes,

@@ -36,7 +36,7 @@ lock, or a Gate M assessment.
 | P4 | Gold authority package | Locked Gold scope, reviewed/adjudicated records, reviewer signatures, selected-record hashes, and acceptance/safety derivation inputs | `UNAVAILABLE` |
 | P5 | F01–F18 typed sources | For every required measurand: protected getter/source, relation or trial definition, failure policy, provenance, approval, checker/tool, ACL, and ordered-progress authority | `UNAVAILABLE` |
 | P6 | Formal detection oracle | Request/plan-bound approved oracle root, version, signer/review record, and independent reconstruction/check method | `UNAVAILABLE` |
-| P7 | Source-restoration choice | Either an approved immutable source archive/wheel/dependency closure or an immutable content-addressed artifact receipt, plus resolver and verification procedure | `UNAVAILABLE` |
+| P7 | Source-restoration closure | **Selected:** exact source archive + wheel + source distribution + dependency lock/artifacts + environment/build metadata; immutable package and independent verification procedure still required | `SELECTED / ARTIFACTS UNAVAILABLE` |
 
 ## 3. Formal lock and execution sequence
 
@@ -65,7 +65,8 @@ handoff containing:
    external spending;
 4. the names and public verification material for all signers and independent
    reviewers; and
-5. the selected source-restoration mechanism from P7.
+5. the selected source-restoration closure from P7, including the sealed bytes
+   and independent verification handoff.
 
 Until that handoff is independently verified, MEAS0 remains `FAIL` and Gate M
 remains `NOT_EVALUATED`. The [existing V3 approval checklist](./MEAS0_V3_APPROVAL_CHECKLIST.md)

@@ -239,14 +239,16 @@ their hash. Replay must:
 - match it to readiness lock bindings, the input manifest, and the outcome
   evidence seal.
 
-The exact source-restoration mechanism remains an approval choice. One of the
-following must be selected before implementation:
+The selected source-restoration mechanism is the self-contained closure
+recorded in [the D12 selection](./MEAS0_D12_SOURCE_RESTORATION_SELECTION_2026-08-01.md):
+seal the exact source archive, built wheel and source distribution, dependency
+artifacts, dependency lock, environment manifest, and build metadata needed
+for replay, then verify them against the lock. An authority-bound
+content-addressed artifact receipt is not the selected primary mechanism.
 
-1. seal the exact source archive or built wheel, dependency artifacts, and
-   environment manifest needed for replay, then verify them against the lock;
-   or
-2. seal an authority-bound receipt for an immutable content-addressed source
-   artifact and retrieve/verify that artifact during replay.
+The selection does not itself authorize restoration: the exact sealed artifact
+bytes, their immutable package, and the separately approved verification
+handoff are still required.
 
 The current checkout must never be silently substituted. Exact lock bytes
 alone prove what hashes were approved but do not supply the source bytes
