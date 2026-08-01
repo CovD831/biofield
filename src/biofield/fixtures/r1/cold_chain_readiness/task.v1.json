@@ -1,0 +1,120 @@
+{
+  "task_id": "cold_chain_readiness",
+  "task_version": "1",
+  "answer_key_version": "1",
+  "title": "北港冷链仓上线准备度审查",
+  "prompt": "阅读全部材料，判断北港冷链仓能否在计划日期上线。提取关键事实并引用材料，明确列出材料之间的矛盾。不得只依据单份材料作答。",
+  "cross_material_required": true,
+  "single_agent_has_all_materials": true,
+  "fact_value_contracts": {
+    "planned_launch_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "generator_test": {
+      "type": "string",
+      "enum": ["passed", "failed", "unknown"]
+    },
+    "replacement_arrival": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "s4_certificate": {
+      "type": "string",
+      "enum": ["valid", "expired", "missing"]
+    },
+    "readiness": {
+      "type": "string",
+      "enum": ["proceed", "hold", "insufficient_evidence"]
+    }
+  },
+  "materials": [
+    {
+      "material_id": "operations_brief",
+      "title": "运营简报（2026-04-08）",
+      "text": "北港冷链仓计划于2026-04-18上线。简报写道，备用发电机已于4月7日完成满载测试并通过；温度传感器S1至S4的校准证明均有效。因此运营团队建议按期上线。"
+    },
+    {
+      "material_id": "maintenance_log",
+      "title": "维护日志（2026-04-12）",
+      "text": "备用发电机在80%负载运行14分钟后因冷却液过热自动停机，本次负载测试结论为失败。替换水泵预计2026-04-20到货，修复后需重新测试。"
+    },
+    {
+      "material_id": "vendor_letter",
+      "title": "传感器供应商函（2026-04-09）",
+      "text": "供应商确认S1、S2、S3、S4四只温度传感器均已完成年度校准，证明在上线日有效。"
+    },
+    {
+      "material_id": "inspection_report",
+      "title": "独立检查记录（2026-04-13）",
+      "text": "S1至S3证书有效；S4证书编号C-104已于2026-03-31到期，现场未找到续期文件。检查员要求在启用前补齐S4有效证明。"
+    }
+  ],
+  "answer_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "decision",
+      "key_facts",
+      "contradictions"
+    ],
+    "properties": {
+      "decision": {
+        "type": "string",
+        "enum": [
+          "proceed",
+          "hold",
+          "insufficient_evidence"
+        ]
+      },
+      "key_facts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "fact_id",
+            "value",
+            "citations"
+          ],
+          "properties": {
+            "fact_id": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "citations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "contradictions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "contradiction_id",
+            "material_ids"
+          ],
+          "properties": {
+            "contradiction_id": {
+              "type": "string"
+            },
+            "material_ids": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

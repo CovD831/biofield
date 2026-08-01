@@ -1,0 +1,75 @@
+{
+  "task_id": "cold_chain_readiness",
+  "task_version": "1",
+  "answer_key_version": "1",
+  "decision": "hold",
+  "key_facts": [
+    {
+      "fact_id": "planned_launch_date",
+      "accepted_values": [
+        "2026-04-18"
+      ],
+      "supporting_material_ids": [
+        "operations_brief"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "generator_test",
+      "accepted_values": [
+        "failed"
+      ],
+      "supporting_material_ids": [
+        "maintenance_log"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "replacement_arrival",
+      "accepted_values": [
+        "2026-04-20"
+      ],
+      "supporting_material_ids": [
+        "maintenance_log"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "s4_certificate",
+      "accepted_values": [
+        "expired"
+      ],
+      "supporting_material_ids": [
+        "inspection_report"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "readiness",
+      "accepted_values": [
+        "hold"
+      ],
+      "supporting_material_ids": [
+        "maintenance_log",
+        "inspection_report"
+      ],
+      "minimum_citations": 2
+    }
+  ],
+  "contradictions": [
+    {
+      "contradiction_id": "generator_test_conflict",
+      "material_ids": [
+        "operations_brief",
+        "maintenance_log"
+      ]
+    },
+    {
+      "contradiction_id": "sensor_certificate_conflict",
+      "material_ids": [
+        "vendor_letter",
+        "inspection_report"
+      ]
+    }
+  ]
+}

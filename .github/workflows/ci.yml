@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install '.[dev]'
+      - run: python -m pytest -q
+      - run: python -m build
+      - name: Verify wheel package data
+        run: |
+          python -m venv /tmp/biofield-wheel-check
+          /tmp/biofield-wheel-check/bin/python -m pip install dist/*.whl
+          cd /tmp
+          /tmp/biofield-wheel-check/bin/python -c "from biofield.evidence_task import available_task_ids; assert available_task_ids() == ('cold_chain_readiness', 'software_release_readiness')"
+          /tmp/biofield-wheel-check/bin/python -m biofield.pre0 --help
+          /tmp/biofield-wheel-check/bin/python -m biofield.f0_model --help

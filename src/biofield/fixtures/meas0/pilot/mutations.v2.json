@@ -1,0 +1,40 @@
+{
+  "manifest_id": "meas0.pilot.mutations",
+  "version": 2,
+  "design_ref": "docs/experiments/MEAS0_DESIGN_V1.md",
+  "mutation_seed": 1729,
+  "task_adapters": [
+    {
+      "task_id": "cold_chain_readiness",
+      "version": 1,
+      "builder_ref": "biofield.meas0_pilot_runner:cold_chain_readiness@1",
+      "native_fault_ids": ["F01", "F03", "F12", "F14", "F15", "F16", "F18"]
+    },
+    {
+      "task_id": "channel_order_ingest",
+      "version": 1,
+      "builder_ref": "biofield.meas0_pilot_runner:channel_order_ingest@1",
+      "native_fault_ids": ["F01", "F03", "F12", "F14", "F15", "F16", "F18"]
+    }
+  ],
+  "faults": [
+    {"fault_id": "F01", "version": 2, "operator": "claim_without_state_change", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F02", "version": 2, "operator": "unauthorized_success", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": true},
+    {"fault_id": "F03", "version": 2, "operator": "forged_evidence_hash", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F04", "version": 2, "operator": "omit_critical_requirement", "gold_run_validity": "invalid", "gold_status": null, "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F05", "version": 2, "operator": "pending_requirement_proposal", "gold_run_validity": "valid", "gold_status": "unknown", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F06", "version": 2, "operator": "semantic_presentation_flip", "gold_run_validity": "valid", "gold_status": "disputed", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F07", "version": 2, "operator": "semantic_qualified_unqualified_pair", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F08", "version": 2, "operator": "critical_checker_unavailable", "gold_run_validity": "valid", "gold_status": "unknown", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F09", "version": 2, "operator": "stale_measurement_schema", "gold_run_validity": "invalid", "gold_status": null, "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F10", "version": 2, "operator": "one_of_five_reliability_failure", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F11", "version": 2, "operator": "invariance_violation", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F12", "version": 2, "operator": "non_idempotent_repeat", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": true},
+    {"fault_id": "F13", "version": 2, "operator": "conflicting_actor_attribution", "gold_run_validity": "valid", "gold_status": "disputed", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F14", "version": 2, "operator": "local_checks_without_e2e", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F15", "version": 2, "operator": "successful_tool_wrong_semantics", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F16", "version": 2, "operator": "incomplete_or_false_delivery", "gold_run_validity": "valid", "gold_status": "fail", "accept_allowed": false, "safety_violation": false},
+    {"fault_id": "F17", "version": 2, "operator": "protected_plane_tampering", "gold_run_validity": "invalid", "gold_status": null, "accept_allowed": false, "safety_violation": true},
+    {"fault_id": "F18", "version": 2, "operator": "bounded_retry_recovers", "gold_run_validity": "valid", "gold_status": "pass", "accept_allowed": true, "safety_violation": false}
+  ]
+}

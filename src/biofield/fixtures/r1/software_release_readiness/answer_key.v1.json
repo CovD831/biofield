@@ -1,0 +1,75 @@
+{
+  "task_id": "software_release_readiness",
+  "task_version": "1",
+  "answer_key_version": "1",
+  "decision": "hold",
+  "key_facts": [
+    {
+      "fact_id": "planned_release_date",
+      "accepted_values": [
+        "2026-07-18"
+      ],
+      "supporting_material_ids": [
+        "release_brief"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "auth_27_status",
+      "accepted_values": [
+        "open"
+      ],
+      "supporting_material_ids": [
+        "security_audit"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "refund_regression",
+      "accepted_values": [
+        "failed"
+      ],
+      "supporting_material_ids": [
+        "ci_log"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "dashboard_snapshot_date",
+      "accepted_values": [
+        "2026-07-09"
+      ],
+      "supporting_material_ids": [
+        "dashboard_export"
+      ],
+      "minimum_citations": 1
+    },
+    {
+      "fact_id": "readiness",
+      "accepted_values": [
+        "hold"
+      ],
+      "supporting_material_ids": [
+        "security_audit",
+        "ci_log"
+      ],
+      "minimum_citations": 2
+    }
+  ],
+  "contradictions": [
+    {
+      "contradiction_id": "security_status_conflict",
+      "material_ids": [
+        "release_brief",
+        "security_audit"
+      ]
+    },
+    {
+      "contradiction_id": "critical_test_status_conflict",
+      "material_ids": [
+        "dashboard_export",
+        "ci_log"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "task_id": "software_release_readiness",
+  "task_version": "1",
+  "answer_key_version": "1",
+  "title": "Orion Pay v3 发布准备度审查",
+  "prompt": "阅读全部材料，判断Orion Pay v3能否按计划发布。提取关键事实并引用材料，明确列出材料之间的矛盾。注意不同材料的数据日期，不得只依据单份材料作答。",
+  "cross_material_required": true,
+  "single_agent_has_all_materials": true,
+  "fact_value_contracts": {
+    "planned_release_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "auth_27_status": {
+      "type": "string",
+      "enum": ["open", "closed", "mitigated", "unknown"]
+    },
+    "refund_regression": {
+      "type": "string",
+      "enum": ["passed", "failed", "unknown"]
+    },
+    "dashboard_snapshot_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "readiness": {
+      "type": "string",
+      "enum": ["proceed", "hold", "insufficient_evidence"]
+    }
+  },
+  "materials": [
+    {
+      "material_id": "release_brief",
+      "title": "发布简报（2026-07-01）",
+      "text": "Orion Pay v3计划于2026-07-18发布。简报称安全审查已经完成且没有阻塞项，结账关键测试全部通过。"
+    },
+    {
+      "material_id": "security_audit",
+      "title": "安全审计补充报告（2026-07-11）",
+      "text": "审计发现严重级别的AUTH-27鉴权绕过问题仍为open。修复完成前不得发布，修复后必须重新测试。"
+    },
+    {
+      "material_id": "dashboard_export",
+      "title": "测试仪表盘导出（2026-07-10）",
+      "text": "仪表盘显示结账关键测试42项全部通过；页面注明数据快照截至2026-07-09。"
+    },
+    {
+      "material_id": "ci_log",
+      "title": "持续集成日志（2026-07-12）",
+      "text": "最新运行中，退款幂等性回归测试失败并被标记为critical，其余41项通过。日志注明仪表盘尚未同步本次结果。"
+    }
+  ],
+  "answer_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "decision",
+      "key_facts",
+      "contradictions"
+    ],
+    "properties": {
+      "decision": {
+        "type": "string",
+        "enum": [
+          "proceed",
+          "hold",
+          "insufficient_evidence"
+        ]
+      },
+      "key_facts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "fact_id",
+            "value",
+            "citations"
+          ],
+          "properties": {
+            "fact_id": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "citations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "contradictions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "contradiction_id",
+            "material_ids"
+          ],
+          "properties": {
+            "contradiction_id": {
+              "type": "string"
+            },
+            "material_ids": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

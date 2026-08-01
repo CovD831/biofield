@@ -1,0 +1,44 @@
+{
+  "task_id": "channel_order_ingest",
+  "task_version": "1",
+  "marketplace_event": {
+    "event_id": "evt-market-2001",
+    "channel": "marketplace",
+    "external_order_id": "MP-8842",
+    "amount": "128.50",
+    "currency": "CNY",
+    "recipient_name": "林岚"
+  },
+  "marketplace_expected": {
+    "channel": "marketplace",
+    "source_order_id": "MP-8842",
+    "amount_cents": 12850,
+    "currency": "CNY",
+    "recipient_name": "林岚"
+  },
+  "direct_regression_event": {
+    "event_id": "evt-direct-2002",
+    "channel": "direct",
+    "external_order_id": "D-2002",
+    "amount": "42.10",
+    "currency": "CNY",
+    "recipient_name": "Direct Regression"
+  },
+  "direct_regression_expected": {
+    "channel": "direct",
+    "source_order_id": "D-2002",
+    "amount_cents": 4210,
+    "currency": "CNY",
+    "recipient_name": "Direct Regression"
+  },
+  "baseline_orders": [
+    {
+      "event_id": "evt-direct-baseline",
+      "channel": "direct",
+      "source_order_id": "D-BASE-1",
+      "amount_cents": 9900,
+      "currency": "CNY",
+      "recipient_name": "Baseline Customer"
+    }
+  ]
+}

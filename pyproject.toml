@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biofield-architecture-experiment"
+version = "0.0.1"
+description = "Isolated contracts and experiments for the biofield agent architecture."
+requires-python = ">=3.11"
+dependencies = ["jsonschema>=4.20", "numpy>=1.24"]
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "pytest>=8.0"]
+
+[project.scripts]
+biofield-pre0 = "biofield.pre0:main"
+biofield-c1 = "biofield.synthetic:main"
+biofield-f0 = "biofield.f0_model:main"
+biofield-a0-probe = "biofield.a0_action_probe:main"
+biofield-meas0 = "biofield.meas0:main"
+biofield-e0 = "biofield.e0_run:main"
+biofield-la1 = "biofield.la1_artifacts:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+biofield = ["fixtures/**/*.json"]

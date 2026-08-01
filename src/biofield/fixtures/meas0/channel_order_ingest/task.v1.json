@@ -1,0 +1,19 @@
+{
+  "task_id": "channel_order_ingest",
+  "task_version": "1",
+  "title": "Offline ERP channel-order ingest",
+  "prompt": "修复本地 ERP 渠道订单接入器，使 marketplace 事件被规范化并幂等写入；保持已有 direct 渠道行为；运行可用测试并交付改动、验证和限制说明。仅可修改 workspace/src 与 workspace/tests/agent，其他路径均为只读。",
+  "allowed_write_roots": [
+    "workspace/src",
+    "workspace/tests/agent"
+  ],
+  "required_delivery_fields": [
+    "changed_files",
+    "checks_run",
+    "limitations"
+  ],
+  "public_files": {
+    "workspace/src/order_ingest.py": "from decimal import Decimal\n\n\ndef ingest_event(connection, event):\n    if event[\"channel\"] != \"direct\":\n        raise ValueError(\"unsupported channel\")\n    connection.execute(\n        \"INSERT INTO orders \"\n        \"(event_id, channel, source_order_id, amount_cents, currency, recipient_name) \"\n        \"VALUES (?, ?, ?, ?, ?, ?)\",\n        (\n            event[\"event_id\"],\n            event[\"channel\"],\n            event[\"external_order_id\"],\n            int(Decimal(event[\"amount\"]) * 100),\n            event[\"currency\"],\n            event[\"recipient_name\"],\n        ),\n    )\n    connection.execute(\n        \"INSERT INTO order_events (event_id, event_type) VALUES (?, ?)\",\n        (event[\"event_id\"], \"created\"),\n    )\n    connection.commit()\n",
+    "workspace/tests/public/test_direct.py": "import sqlite3\nimport sys\nfrom pathlib import Path\n\nsys.path.insert(0, str(Path(__file__).parents[2] / \"src\"))\nfrom order_ingest import ingest_event\n\nconnection = sqlite3.connect(\":memory:\")\nconnection.executescript(\n    \"CREATE TABLE orders (id INTEGER PRIMARY KEY, event_id TEXT, channel TEXT, \"\n    \"source_order_id TEXT, amount_cents INTEGER, currency TEXT, recipient_name TEXT);\"\n    \"CREATE TABLE order_events (id INTEGER PRIMARY KEY, event_id TEXT, event_type TEXT);\"\n)\nevent = {\n    \"event_id\": \"evt-public-direct-1001\",\n    \"channel\": \"direct\",\n    \"external_order_id\": \"D-PUBLIC-1001\",\n    \"amount\": \"19.95\",\n    \"currency\": \"CNY\",\n    \"recipient_name\": \"Public Fixture\"\n}\ningest_event(connection, event)\nrow = connection.execute(\n    \"SELECT channel, source_order_id, amount_cents, currency, recipient_name \"\n    \"FROM orders WHERE event_id = ?\",\n    (event[\"event_id\"],),\n).fetchone()\nassert row == (\"direct\", \"D-PUBLIC-1001\", 1995, \"CNY\", \"Public Fixture\")\nprint(\"public direct regression passed\")\n"
+  }
+}

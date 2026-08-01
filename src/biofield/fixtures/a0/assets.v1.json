@@ -1,0 +1,68 @@
+{
+  "asset_version": "1",
+  "system_prompts": {
+    "prompt.common.v1": "你是一个证据审查 Agent。必须基于提供的材料完成结构化判断，区分事实、矛盾和不确定性，不得编造来源。",
+    "prompt.role.v1": "你是一个谨慎的矛盾核验 Agent。优先比较材料日期与来源权威性，主动找出冲突，并仅输出可追溯的结构化判断。"
+  },
+  "inputs": {
+    "input.common.v1": {
+      "material_order": "source",
+      "heading": "以下是按任务原始顺序提供的材料"
+    },
+    "input.changed.v1": {
+      "material_order": "reverse",
+      "heading": "以下是按逆序呈现的同一组任务材料"
+    }
+  },
+  "histories": {
+    "history.common.v1": [
+      {
+        "role": "user",
+        "content": "请先说明你将怎样审查这些材料，重点是完整提取每项可核对事实及出处。"
+      },
+      {
+        "role": "assistant",
+        "content": "我会逐份提取日期、状态、数值和来源，建立事实清单；在证据不足时保留不确定性，并为每项事实附上材料编号。"
+      }
+    ],
+    "history.specialized.v1": [
+      {
+        "role": "user",
+        "content": "请先说明你将怎样核验这些材料，重点是找出相互矛盾且需要复查的陈述。"
+      },
+      {
+        "role": "assistant",
+        "content": "我会逐份比对日期、状态和来源，再优先追查冲突；在证据不一致时标记争议，并为每项判断附上材料编号。"
+      }
+    ],
+    "history.neutral.v1": [
+      {
+        "role": "user",
+        "content": "请先说明你将怎样处理这些材料，重点是依据当前任务状态选择下一步行动。"
+      },
+      {
+        "role": "assistant",
+        "content": "我会查看未完成需求、可用证据和资源约束，再选择下一项行动；我会记录选择，但不预设某个需求维度。"
+      }
+    ],
+    "history.empty.v1": []
+  },
+  "role_inductions": {
+    "history": {
+      "system_suffix": "请延续对话历史中已经形成的工作重点，不要根据 Agent 标签预设固定职责。"
+    },
+    "manual_prompt": {
+      "system_suffix": "固定角色要求：你是矛盾核验专员，优先定位冲突、比较来源日期，并明确标记需要复查的证据。"
+    }
+  },
+  "tasks": {
+    "software_release_readiness": {
+      "r1_task_id": "software_release_readiness",
+      "task_version": "1"
+    },
+    "cold_chain_readiness": {
+      "r1_task_id": "cold_chain_readiness",
+      "task_version": "1"
+    }
+  }
+}
